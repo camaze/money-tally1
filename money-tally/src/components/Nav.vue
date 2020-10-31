@@ -36,12 +36,16 @@
       align-items: center;
       flex-direction: column;
       .icon{
+        color: #666666;
         width: 32px;
         height: 32px;
       }
     }
     > .item.selected{
       color: red;
+      > .icon{
+        color: red;
+      }
     }
   }
 </style>
