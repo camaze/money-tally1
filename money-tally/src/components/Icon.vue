@@ -16,6 +16,7 @@
 </script>
 
 <style lang="scss" scoped>
+  /*icon font 推荐配置*/
   .icon {
     width: 1em;
     height: 1em;
