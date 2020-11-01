@@ -1,7 +1,7 @@
 <!--几种状态都会用到的布局减少重复-->
 <template>
-  <div class="nav-wrapper">
-    <div class="content">
+  <div class="layout-wrapper" :class="classPrefix && `${classPrefix}-wrapper`">
+    <div class="content" :class="classPrefix && `${classPrefix}-content`">
       <slot/>
     </div>
     <Nav/>
@@ -9,15 +9,17 @@
 </template>
 
 <script lang="ts">
-  import Nav from './Nav.vue'
+  import Nav from './Nav.vue';
+
   export default {
     name: 'Layout',
-    components:{Nav}
+    props:['classPrefix'],
+    components: {Nav}
   };
 </script>
 
 <style lang="scss" scoped>
-  .nav-wrapper {
+  .layout-wrapper {
     display: flex;
     flex-direction: column;
     height: 100vh;
