@@ -12,10 +12,14 @@
 <script>
   export default {
     name: 'Types',
+    props:['xxx'],
     data(){
       return{
         type: '-'    // 默认为-， -为支出，+为收入
       }
+    },
+    mounted(){
+      console.log(this.xxx)
     },
     methods:{
       selectType(type){
