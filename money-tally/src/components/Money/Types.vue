@@ -2,34 +2,30 @@
   <div>
     <ul class="types">
       <li :class="type === '-' && 'selected' "
-          @click="selectType('-')">支出</li>
+          @click="selectType('-')">支出
+      </li>
       <li :class="type === '+' && 'selected' "
-          @click="selectType('+')">收入</li>
+          @click="selectType('+')">收入
+      </li>
     </ul>
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'Types',
-    props:['xxx'],
-    data(){
-      return{
-        type: '-'    // 默认为-， -为支出，+为收入
+<script lang="ts">
+  import Vue from 'vue';
+  import {Component, Prop} from 'vue-property-decorator';
+
+  @Component
+  export default class Types extends Vue {
+    type = '-';    // 默认为-， -为支出，+为收入
+
+    selectType(type: string) {
+      if (type !== '-' && type !== '+') {
+        throw new Error('type is wrong!');
       }
-    },
-    mounted(){
-      console.log(this.xxx)
-    },
-    methods:{
-      selectType(type){
-        if(type !== '-' && type !== '+'){
-          throw new Error('type is wrong!')
-        }
-        this.type = type
-      }
+      this.type = type;
     }
-  };
+  }
 </script>
 
 <style lang="scss" scoped>
