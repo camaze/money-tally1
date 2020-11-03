@@ -1,9 +1,9 @@
 <template>
   <Layout class-prefix="layout">
     <number-pad/>
-    <Types :xxx="333"/>
+    <Types/>
     <Notes/>
-    <Tags/>
+    <Tags :data-source="tags"/>
   </Layout>
 </template>
 
@@ -13,15 +13,21 @@
   import Types from '@/components/Money/Types.vue';
   import Notes from '@/components/Money/Notes.vue';
   import Tags from '@/components/Money/Tags.vue';
+
   export default {
     name: 'Money',
     components: {Tags, Notes, Types, NumberPad},
+    data() {
+      return {
+        tags: ['衣', '食', '住', '行', '彩票']
+      };
+    }
   };
 </script>
 
 <!--注意这里没有scoped，因为要控制Layout组件里的东西-->
 <style lang="scss">
-  .layout-content{
+  .layout-content {
     display: flex;
     flex-direction: column-reverse;
   }

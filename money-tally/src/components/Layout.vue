@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="js">
   import Nav from './Nav.vue';
 
   export default {
