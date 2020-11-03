@@ -1,11 +1,12 @@
 <template>
   <div class="tags">
     <div class="newTag">
-      <button>新增标签</button>
+      <button @click="create">新增标签</button>
     </div>
     <ul class="current">
       <li v-for="tag in dataSource" :key="tag"
-          @click="toggle(tag)" :class="{selected: selectedTags.indexOf(tag)>=0}">{{tag}}</li>
+          @click="toggle(tag)" :class="{selected: selectedTags.indexOf(tag)>=0}">{{tag}}
+      </li>
 
     </ul>
   </div>
@@ -17,15 +18,24 @@
 
   @Component
   export default class Tags extends Vue {
-    @Prop() dataSource: string[] | undefined;
+    @Prop(String) readonly dataSource: string[] | undefined;
     selectedTags: string[] = [];
 
     toggle(tag: string) {
       const index = this.selectedTags.indexOf(tag);
-      if(index>=0){    // 从selectedTags中删除
-        this.selectedTags.splice(index, 1)
-      }else{
+      if (index >= 0) {    // 从selectedTags中删除
+        this.selectedTags.splice(index, 1);
+      } else {
         this.selectedTags.push(tag);
+      }
+    }
+
+    create() {
+      const name = window.prompt('请输入新标签');
+      if (name === '') {
+        window.alert('输入不能为空');
+      } else if (this.dataSource) {
+        this.$emit('update:dataSource', [...this.dataSource, name]);
       }
     }
   }
@@ -44,7 +54,7 @@
       flex-wrap: wrap;
 
       > li {
-        $bg:#d9d9d9;
+        $bg: #d9d9d9;
         background: $bg;
         $h: 24px;
         height: $h;
@@ -53,7 +63,8 @@
         padding: 0 16px;
         margin-right: 12px;
         margin-top: 4px;
-        &.selected{
+
+        &.selected {
           background: darken($bg, 25%);
           color: white;
         }
