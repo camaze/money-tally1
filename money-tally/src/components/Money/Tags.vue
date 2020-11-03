@@ -18,7 +18,7 @@
 
   @Component
   export default class Tags extends Vue {
-    @Prop(String) readonly dataSource: string[] | undefined;
+    @Prop(Array) readonly dataSource: string[] | undefined;
     selectedTags: string[] = [];
 
     toggle(tag: string) {
@@ -28,13 +28,17 @@
       } else {
         this.selectedTags.push(tag);
       }
+      this.$emit('update:value', this.selectedTags)
     }
 
     create() {
       const name = window.prompt('请输入新标签');
       if (name === '') {
         window.alert('输入不能为空');
-      } else if (this.dataSource) {
+      }
+      else if(name === null){   // 新输入新标签后选取消name会为null
+        return;
+      }else if (this.dataSource) {
         this.$emit('update:dataSource', [...this.dataSource, name]);
       }
     }
