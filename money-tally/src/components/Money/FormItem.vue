@@ -24,8 +24,8 @@
     @Prop({required: true}) fieldName!: string;
     @Prop() placeHolder?: string;
 
-    @Watch('value')
-    // 第一个参数新value，第二个参数老value
+    // @Watch('value')
+    // 第一个参数新value，第二个参数老value    应该不用watch。
     onValueChanged(value: string) {
       this.$emit('update:value', value);
     }

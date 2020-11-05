@@ -1,5 +1,6 @@
 <template>
   <Layout class-prefix="layout">
+    {{recordList}}
 <!--    点击OK后submit提交-->
     <number-pad @update:value="onUpdateAmount" @submit="saveRecord"/>
     <Types :value.sync="record.type"/>

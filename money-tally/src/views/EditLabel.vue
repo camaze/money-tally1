@@ -1,17 +1,20 @@
 <template>
   <Layout>
     <div class="navBar">
-      <Icon class="leftIcon" name="left"/>
+      <Icon class="leftIcon" name="left" @click="goBack"/>
       <span class="title">
         编辑标签
       </span>
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="tag.name" field-name="标签名" place-holder="请输入标签名"/>
+      <FormItem :value="tag.name"
+                @update:value="updateTag"
+                field-name="标签名"
+                place-holder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
-      <Button>删除标签</Button>
+      <Button @click="remove">删除标签</Button>
     </div>
   </Layout>
 </template>
@@ -39,6 +42,25 @@
       } else {
         this.$router.replace('/404');
       }
+    }
+
+    // FormItem组件中监听了input事件，实时更新标签名
+    updateTag(name: string) {
+      if (this.tag) {   //用户瞎输入路径 /edit/xxx之类的就找不到了
+        tagListModel.update(this.tag.id, name);
+      }
+    }
+
+    // 通过id删除标签
+    remove() {
+      if (this.tag) {
+        tagListModel.remove(this.tag.id);
+
+      }
+    }
+
+    goBack() {
+      this.$router.back();
     }
   }
 </script>
