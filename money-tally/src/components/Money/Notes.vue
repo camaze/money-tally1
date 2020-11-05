@@ -1,20 +1,24 @@
 <template>
   <div>
     <label class="notes">
-      <span class="name">备注</span>
-      <input type="text"
-             v-model="value" placeholder="在这里输入备注"/>
+      <label>
+        <span class="name">{{fieldName}}</span>
+        <input type="text" v-model="value" :placeholder="placeHolder"/>
+      </label>
     </label>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Watch} from 'vue-property-decorator';
+  import {Component, Prop, Watch} from 'vue-property-decorator';
 
   @Component
   export default class Notes extends Vue {
     value = '';
+
+    @Prop({required: true}) fieldName!: string;
+    @Prop() placeHolder?: string;
 
     @Watch('value')
     // 第一个参数新value，第二个参数老value
@@ -42,10 +46,13 @@
     }
 
     input {
-      height: 64px;
+      font-size: 14px;
+
+      height: 40px;
       flex-grow: 1;
       background: transparent;
       border: none;
+      padding-right: 16px;
     }
   }
 </style>
