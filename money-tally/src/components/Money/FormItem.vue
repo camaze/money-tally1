@@ -1,9 +1,13 @@
+<!--input标签与label-->
 <template>
   <div>
     <label class="formItem">
       <label>
         <span class="name">{{fieldName}}</span>
-        <input type="text" v-model="value" :placeholder="placeHolder"/>
+        <input type="text"
+               :value="value"
+               @input="onValueChanged($event.target.value)"
+               :placeholder="placeHolder"/>
       </label>
     </label>
   </div>
@@ -15,14 +19,14 @@
 
   @Component
   export default class FormItem extends Vue {
-    @Prop({default: ''}) value!: string;
+    @Prop({default: ''}) readonly value!: string;
 
     @Prop({required: true}) fieldName!: string;
     @Prop() placeHolder?: string;
 
     @Watch('value')
     // 第一个参数新value，第二个参数老value
-    onValueChange(value: string) {
+    onValueChanged(value: string) {
       this.$emit('update:value', value);
     }
 
