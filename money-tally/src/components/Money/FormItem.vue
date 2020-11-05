@@ -49,7 +49,7 @@
     }
 
     input {
-      font-size: 14px;
+      /*font-size: 14px;*/
 
       height: 40px;
       flex-grow: 1;
