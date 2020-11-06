@@ -1,7 +1,7 @@
 <template>
   <Layout class-prefix="layout">
     {{recordList}}
-    <!--    点击OK后submit提交-->
+    <!--    点击OK后submit提交，并执行saveRecord-->
     <number-pad @update:value="onUpdateAmount" @submit="saveRecord"/>
     <Types :value.sync="record.type"/>
     <div class="notes">
@@ -22,10 +22,6 @@
   import Tags from '@/components/Money/Tags.vue';
   import Vue from 'vue';
   import {Component, Watch} from 'vue-property-decorator';
-  import recordListModel from '@/models/recordListModel';
-
-  const recordList = recordListModel.fetch();
-
 
   @Component({
     components: {Tags, FormItem, Types, NumberPad}
@@ -34,7 +30,7 @@
   export default class Money extends Vue {
     // tags = ['衣', '食', '住', '行', '彩票'];
     tags = window.tagList;
-    recordList: RecordItem[] = recordList;
+    recordList = window.recordList;
     // 记账记录：默认一打开界面是如下情况
     record: RecordItem = {
       tags: [], notes: '', type: '-', amount: 0
@@ -53,13 +49,13 @@
     }
 
     saveRecord() {
-      recordListModel.create(this.record);
+      window.createRecord(this.record);
     }
 
-    @Watch('recordList')
-    onRecordListChange() {
-      recordListModel.save();
-    }
+    // @Watch('recordList')    // watch已经没用，留着回头参考。。
+    // onRecordListChange() {
+    //   recordListModel.save();
+    // }
   }
 </script>
 
