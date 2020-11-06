@@ -20,14 +20,7 @@ type TagListModel = {
   save: () => void;
 }
 
+
 interface Window {
-  // 以下是tag相关
-  tagList: Tag[]
-  createTag: (name: string) => void
-  findTag: (id: string) => Tag | undefined
-  removeTag: (id: string) => boolean
-  updateTag: (id: string, name: string) => 'success' | 'not found' | 'duplicated'
-  // 以下是record相关
-  recordList: RecordItem[]
-  createRecord: (record: RecordItem) => void
+
 }

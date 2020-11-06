@@ -22,6 +22,7 @@
   import Tags from '@/components/Money/Tags.vue';
   import Vue from 'vue';
   import {Component, Watch} from 'vue-property-decorator';
+  import store from '@/store/index2';
 
   @Component({
     components: {Tags, FormItem, Types, NumberPad}
@@ -29,8 +30,8 @@
 
   export default class Money extends Vue {
     // tags = ['衣', '食', '住', '行', '彩票'];
-    tags = window.tagList;
-    recordList = window.recordList;
+    tags = store.tagList;
+    recordList = store.recordList;
     // 记账记录：默认一打开界面是如下情况
     record: RecordItem = {
       tags: [], notes: '', type: '-', amount: 0
@@ -49,7 +50,7 @@
     }
 
     saveRecord() {
-      window.createRecord(this.record);
+      store.createRecord(this.record);
     }
 
     // @Watch('recordList')    // watch已经没用，留着回头参考。。

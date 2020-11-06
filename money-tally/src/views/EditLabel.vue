@@ -24,12 +24,13 @@
   import {Component} from 'vue-property-decorator';
   import FormItem from '@/components/Money/FormItem.vue';
   import Button from '@/components/Button.vue';
+  import store from '@/store/index2';
 
   @Component({
     components: {Button, FormItem}
   })
   export default class EditLabel extends Vue {
-    tag = window.findTag(this.$route.params.id);
+    tag = store.findTag(this.$route.params.id);
 
     created() {
       console.log('aaaa', this.$route.params.id)
@@ -43,7 +44,7 @@
     // FormItem组件中监听了input事件，实时更新标签名
     updateTag(name: string) {
       if (this.tag) {   //用户瞎输入路径 /edit/xxx之类的就找不到了
-        window.updateTag(this.tag.id, name);
+        store.updateTag(this.tag.id, name);
       }
     }
 
@@ -52,7 +53,7 @@
       const answer = window.confirm('确认删除标签？');
       if (answer) {
         if (this.tag) {
-          if (window.removeTag(this.tag.id)) {
+          if (store.removeTag(this.tag.id)) {
             this.$router.back();
           } else {
             window.alert('删除失败');
