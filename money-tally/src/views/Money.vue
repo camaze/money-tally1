@@ -26,7 +26,6 @@
   import tagListModel from '@/models/tagListModel';
 
   const recordList = recordListModel.fetch();
-  const tagList = tagListModel.fetch();
 
 
   @Component({
@@ -35,7 +34,7 @@
 
   export default class Money extends Vue {
     // tags = ['衣', '食', '住', '行', '彩票'];
-    tags = tagList;
+    tags = window.tagList;
     recordList: RecordItem[] = recordList;
     // 记账记录：默认一打开界面是如下情况
     record: RecordItem = {
