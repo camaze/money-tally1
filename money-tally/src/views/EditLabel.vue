@@ -22,7 +22,6 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  import tagListModel from '@/models/tagListModel';
   import FormItem from '@/components/Money/FormItem.vue';
   import Button from '@/components/Button.vue';
 
@@ -30,16 +29,13 @@
     components: {Button, FormItem}
   })
   export default class EditLabel extends Vue {
-    tag?: { id: string; name: string } = undefined;
+    tag = window.findTag(this.$route.params.id);
 
     created() {
-      const id = this.$route.params.id;
-      tagListModel.fetch();
-      const tags = tagListModel.data;
-      const tag = tags.filter(t => t.id === id)[0];
-      if (tag) {
-        this.tag = tag;
-      } else {
+      console.log('aaaa', this.$route.params.id)
+      console.log(this.tag);
+      // 通过url拿到id，跳转到编辑标签的界面，用户瞎输入id就跳404
+      if (!this.tag) {
         this.$router.replace('/404');
       }
     }
@@ -47,7 +43,7 @@
     // FormItem组件中监听了input事件，实时更新标签名
     updateTag(name: string) {
       if (this.tag) {   //用户瞎输入路径 /edit/xxx之类的就找不到了
-        tagListModel.update(this.tag.id, name);
+        window.updateTag(this.tag.id, name);
       }
     }
 
@@ -56,10 +52,10 @@
       const answer = window.confirm('确认删除标签？');
       if (answer) {
         if (this.tag) {
-          if (tagListModel.remove(this.tag.id)) {
+          if (window.removeTag(this.tag.id)) {
             this.$router.back();
-          }else{
-            window.alert('删除失败')
+          } else {
+            window.alert('删除失败');
           }
         }
       } else {

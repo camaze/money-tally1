@@ -23,6 +23,7 @@ const tagListModel: TagListModel = {
       return 'success';
     }
   },
+  // 通过id找到该标签，并根据name修改标签名
   update(id, name) {
     const idList = this.data.map(item => item.id);
     if (idList.indexOf(id) >= 0) {
