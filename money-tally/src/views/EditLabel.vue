@@ -26,15 +26,15 @@
   import Button from '@/components/Button.vue';
   import store from '@/store/index2';
 
+
   @Component({
     components: {Button, FormItem}
   })
   export default class EditLabel extends Vue {
+    // 找标签，找不到就404
     tag = store.findTag(this.$route.params.id);
 
     created() {
-      console.log('aaaa', this.$route.params.id)
-      console.log(this.tag);
       // 通过url拿到id，跳转到编辑标签的界面，用户瞎输入id就跳404
       if (!this.tag) {
         this.$router.replace('/404');
