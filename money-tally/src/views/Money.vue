@@ -1,7 +1,7 @@
 <template>
   <Layout class-prefix="layout">
     {{recordList}}
-<!--    点击OK后submit提交-->
+    <!--    点击OK后submit提交-->
     <number-pad @update:value="onUpdateAmount" @submit="saveRecord"/>
     <Types :value.sync="record.type"/>
     <div class="notes">
@@ -37,6 +37,7 @@
     // tags = ['衣', '食', '住', '行', '彩票'];
     tags = tagList;
     recordList: RecordItem[] = recordList;
+    // 记账记录：默认一打开界面是如下情况
     record: RecordItem = {
       tags: [], notes: '', type: '-', amount: 0
     };
@@ -54,14 +55,12 @@
     }
 
     saveRecord() {
-      const record2: RecordItem = recordListModel.clone(this.record);
-      record2.createdAt = new Date();
-      this.recordList.push(record2);
+      recordListModel.create(this.record);
     }
 
     @Watch('recordList')
     onRecordListChange() {
-      recordListModel.save(this.recordList);
+      recordListModel.save();
     }
   }
 </script>
@@ -73,7 +72,7 @@
     flex-direction: column-reverse;
   }
 
-  .notes{
+  .notes {
     padding: 12px 0;
   }
 </style>

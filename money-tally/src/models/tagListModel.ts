@@ -1,3 +1,4 @@
+// 记录标签list，标签包括 id 和 name
 import createId from '@/lib/createId';
 
 const localStorageKeyName = 'tagList';
