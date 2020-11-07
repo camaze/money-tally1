@@ -40,6 +40,7 @@
       else if(name === null){   // 新输入新标签后选取消name会为null
         return;
       }else if (this.dataSource) {
+        console.log('aaa')
         this.$emit('update:dataSource', [...this.dataSource, name]);
       }
     }
