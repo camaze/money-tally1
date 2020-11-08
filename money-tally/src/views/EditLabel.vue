@@ -8,7 +8,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="tag.name"
+      <FormItem :value="currentTag.name"
                 @update:value="updateTag"
                 field-name="标签名"
                 place-holder="请输入标签名"/>
@@ -31,7 +31,7 @@
     components: {Button, FormItem}
   })
   export default class EditLabel extends Vue {
-    get tag() {
+    get currentTag() {
       return this.$store.state.currentTag;
     }
 
@@ -43,26 +43,26 @@
       const id = this.$route.params.id;
       this.$store.commit('fetchTags');    // 必须先拿到，不然刷新报错
       this.$store.commit('setCurrentTag', id);
-      if (!this.tag) {
+      if (!this.currentTag) {
         this.$router.replace('/404');
       }
     }
 
     // FormItem组件中监听了input事件，实时更新标签名
     updateTag(name: string) {
-      if (this.tag) {   //用户瞎输入路径 /edit/xxx之类的就找不到了
+      if (this.currentTag) {   //用户瞎输入路径 /edit/xxx之类的就找不到了
         this.$store.commit('updateTag', {
-          id: this.tag.id, name
+          id: this.currentTag.id, name
         });
       }
     }
 
     // 通过id删除标签
     remove() {
-      if (this.tag) {     // 用户瞎输入id就跳404
+      if (this.currentTag) {     // 用户瞎输入id就跳404
         const answer = window.confirm('确认删除标签？');
         if (answer) {
-          this.$store.commit('removeTag', this.tag.id);
+          this.$store.commit('removeTag', this.currentTag.id);
         } else {
           return;
         }
