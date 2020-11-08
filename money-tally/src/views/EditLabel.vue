@@ -34,12 +34,14 @@
     get tag() {
       return this.$store.state.currentTag;
     }
+
     // 找标签，找不到就404
 
     created() {
       // 通过url拿到id，跳转到编辑标签的界面，用户瞎输入id就跳404
       // tag = store.findTag(this.$route.params.id);
       const id = this.$route.params.id;
+      this.$store.commit('fetchTags');    // 必须先拿到，不然刷新报错
       this.$store.commit('setCurrentTag', id);
       if (!this.tag) {
         this.$router.replace('/404');
@@ -49,15 +51,23 @@
     // FormItem组件中监听了input事件，实时更新标签名
     updateTag(name: string) {
       if (this.tag) {   //用户瞎输入路径 /edit/xxx之类的就找不到了
-        // TODO
-        // store.updateTag(this.tag.id, name);
+        this.$store.commit('updateTag', {
+          id: this.tag.id, name
+        });
       }
     }
 
     // 通过id删除标签
     remove() {
-      //TODO
-      return;
+      if (this.tag) {     // 用户瞎输入id就跳404
+        const answer = window.confirm('确认删除标签？');
+        if (answer) {
+          this.$store.commit('removeTag', this.tag.id);
+        } else {
+          return;
+        }
+      }
+
       // const answer = window.confirm('确认删除标签？');
       // if (answer) {
       //   if (this.tag) {

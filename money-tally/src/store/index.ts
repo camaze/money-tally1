@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import clone from '@/lib/clone';
 import createId from '@/lib/createId';
+import router from '@/router';
 
 Vue.use(Vuex);   // 把 store 绑到Vue.prototype.$store = store上
 
@@ -20,6 +21,40 @@ const store = new Vuex.Store({
   mutations: {   // methods
     setCurrentTag(state, id: string) {
       state.currentTag = state.tagList.filter(t => t.id === id)[0];
+    },
+    // 通过id找到该标签，并根据name修改标签名
+    updateTag(state, payload: { id: string, name: string }) {
+      const {id, name} = payload;
+      const idList = state.tagList.map(item => item.id);
+      if (idList.indexOf(id) >= 0) {
+        const names = state.tagList.map(item => item.name);
+        if (names.indexOf(name) >= 0) {
+          window.alert('标签名重复了');
+        } else {
+          const tag = state.tagList.filter(item => item.id === id)[0];
+          tag.name = name;
+          // 保存
+          store.commit('saveTags');
+        }
+      }
+    },
+    // 通过标签的id，数据库删除标签
+    removeTag(state, id: string) {
+      let index = -1;
+      for (let i = 0; i < state.tagList.length; i++) {
+        if (state.tagList[i].id === id) {
+          index = i;
+          break;
+        }
+      }
+      // 找到
+      if (index >= 0) {
+        state.tagList.splice(index, 1);
+        store.commit('saveTags');
+        router.back()
+      } else {
+        window.alert('删除失败');
+      }
     },
     fetchRecords(state) {
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
