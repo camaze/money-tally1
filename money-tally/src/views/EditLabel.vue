@@ -24,7 +24,7 @@
   import {Component} from 'vue-property-decorator';
   import FormItem from '@/components/Money/FormItem.vue';
   import Button from '@/components/Button.vue';
-  import store from '@/store/index2';
+  import Tags from '@/components/Money/Tags.vue';
 
 
   @Component({
@@ -32,10 +32,13 @@
   })
   export default class EditLabel extends Vue {
     // 找标签，找不到就404
-    tag = store.findTag(this.$route.params.id);
+
+    tag?: Tag = undefined;
 
     created() {
       // 通过url拿到id，跳转到编辑标签的界面，用户瞎输入id就跳404
+      // tag = store.findTag(this.$route.params.id);
+      //TODO
       if (!this.tag) {
         this.$router.replace('/404');
       }
@@ -44,24 +47,27 @@
     // FormItem组件中监听了input事件，实时更新标签名
     updateTag(name: string) {
       if (this.tag) {   //用户瞎输入路径 /edit/xxx之类的就找不到了
-        store.updateTag(this.tag.id, name);
+        // TODO
+        // store.updateTag(this.tag.id, name);
       }
     }
 
     // 通过id删除标签
     remove() {
-      const answer = window.confirm('确认删除标签？');
-      if (answer) {
-        if (this.tag) {
-          if (store.removeTag(this.tag.id)) {
-            this.$router.back();
-          } else {
-            window.alert('删除失败');
-          }
-        }
-      } else {
-        return;
-      }
+      //TODO
+      return;
+      // const answer = window.confirm('确认删除标签？');
+      // if (answer) {
+      //   if (this.tag) {
+      //     if (store.removeTag(this.tag.id)) {
+      //       this.$router.back();
+      //     } else {
+      //       window.alert('删除失败');
+      //     }
+      //   }
+      // } else {
+      //   return;
+      // }
     }
 
     goBack() {
