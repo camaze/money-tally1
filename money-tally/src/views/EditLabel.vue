@@ -31,14 +31,16 @@
     components: {Button, FormItem}
   })
   export default class EditLabel extends Vue {
+    get tag() {
+      return this.$store.state.currentTag;
+    }
     // 找标签，找不到就404
-
-    tag?: Tag = undefined;
 
     created() {
       // 通过url拿到id，跳转到编辑标签的界面，用户瞎输入id就跳404
       // tag = store.findTag(this.$route.params.id);
-      //TODO
+      const id = this.$route.params.id;
+      this.$store.commit('setCurrentTag', id);
       if (!this.tag) {
         this.$router.replace('/404');
       }

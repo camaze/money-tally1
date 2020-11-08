@@ -32,7 +32,7 @@
 
   export default class Labels extends mixins(TagHelper) {
 
-    beforeCreated() {
+    beforeCreate() {
       this.$store.commit('fetchTags');
     }
 
