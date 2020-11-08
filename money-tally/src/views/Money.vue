@@ -26,13 +26,13 @@
 
   @Component({
     components: {Tags, FormItem, Types, NumberPad},
-    computed: {
-      recordList() {
-        return this.$store.state.recordList;
-      }
-    }
   })
   export default class Money extends Vue {
+
+    get recordList() {
+      return this.$store.state.recordList;
+    }
+
     // 记账记录：默认一打开界面是如下情况
     record: RecordItem = {
       tags: [], notes: '', type: '-', amount: 0
