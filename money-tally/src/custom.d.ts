@@ -3,7 +3,7 @@ type RecordItem = {
   notes: string;
   type: string;
   amount: number;     // 数据类型
-  createdAt?: Date;   // 类 / 构造函数  加问号表示可以不存在
+  createdAt?: string;   // 类 / 构造函数  加问号表示可以不存在
 }
 
 type Tag = {
@@ -11,6 +11,11 @@ type Tag = {
   name: string;
 }
 
+type RootState = {
+  recordList: RecordItem[],
+  tagList: Tag[],
+  currentTag?: Tag
+}
 
 type TagListModel = {
   data: Tag[];

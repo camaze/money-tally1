@@ -6,12 +6,6 @@ import router from '@/router';
 
 Vue.use(Vuex);   // 把 store 绑到Vue.prototype.$store = store上
 
-type RootState = {
-  recordList: RecordItem[],
-  tagList: Tag[],
-  currentTag?: Tag
-}
-
 const store = new Vuex.Store({
   state: {    // data
     recordList: [],
@@ -19,6 +13,24 @@ const store = new Vuex.Store({
     currentTag: undefined
   } as RootState,
   mutations: {   // methods
+    fetchRecords(state) {
+      state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
+    },
+    createRecord(state, record) {
+      const record2: RecordItem = clone(record);
+      record2.createdAt = new Date().toISOString();
+      state.recordList.push(record2);
+      store.commit('saveRecords');
+    },
+    saveRecords(state) {
+      window.localStorage.setItem('recordList',
+        JSON.stringify(state.recordList));
+    },
+
+
+    fetchTags(state) {
+      state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+    },
     setCurrentTag(state, id: string) {
       state.currentTag = state.tagList.filter(t => t.id === id)[0];
     },
@@ -51,26 +63,10 @@ const store = new Vuex.Store({
       if (index >= 0) {
         state.tagList.splice(index, 1);
         store.commit('saveTags');
-        router.back()
+        router.back();
       } else {
         window.alert('删除失败');
       }
-    },
-    fetchRecords(state) {
-      state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
-    },
-    createRecord(state, record) {
-      const record2: RecordItem = clone(record);
-      record2.createdAt = new Date();
-      state.recordList.push(record2);
-      store.commit('saveRecords');
-    },
-    saveRecords(state) {
-      window.localStorage.setItem('recordList',
-        JSON.stringify(state.recordList));
-    },
-    fetchTags(state) {
-      state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
     },
     //通过name创建标签，id是自生成的
     createTag(state, name: string) {
