@@ -2,7 +2,8 @@
   <Layout class-prefix="layout">
     <!--    点击OK后submit提交，并执行saveRecord-->
     <number-pad @update:value="onUpdateAmount" @submit="saveRecord"/>
-    <Types :value.sync="record.type"/>
+    <Tabs :data-source="recordTypeList"
+          :value.sync="record.type"/>
     <div class="notes">
       <FormItem field-name="备注"
                 place-holder="在这里输入备注"
@@ -21,11 +22,13 @@
   import Tags from '@/components/Money/Tags.vue';
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
+  import recordTypeList from '@/constants/recordTypeList';
+  import Tabs from '@/components/Tabs.vue';
   // import oldStore from '@/store/index2';
 
 
   @Component({
-    components: {Tags, FormItem, Types, NumberPad},
+    components: {Tabs, Tags, FormItem, Types, NumberPad},
   })
   export default class Money extends Vue {
 
@@ -33,14 +36,17 @@
       return this.$store.state.recordList;
     }
 
+    recordTypeList = recordTypeList;
+
     // 记账记录：默认一打开界面是如下情况
     record: RecordItem = {
       tags: [], notes: '', type: '-', amount: 0
     };
 
-    created(){
-      this.$store.commit('fetchRecords')
+    created() {
+      this.$store.commit('fetchRecords');
     }
+
     onUpdateNotes(value: string) {
       this.record.notes = value;
     }
