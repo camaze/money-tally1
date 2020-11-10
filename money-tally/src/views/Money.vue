@@ -72,8 +72,8 @@
 </script>
 
 <!--注意这里没有scoped，因为要控制Layout组件里的东西-->
-<!--写成scoped也没有影响？？？-->
-<style lang="scss" scoped>
+<!--写成scoped也没有影响？？？   ...有的-->
+<style lang="scss">
   .layout-content {
     display: flex;
     flex-direction: column-reverse;
