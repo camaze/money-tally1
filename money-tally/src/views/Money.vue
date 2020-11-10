@@ -10,7 +10,7 @@
                 @update:value="onUpdateNotes"
       />
     </div>
-    <Tags/>
+    <Tags @update:value="onSelectedTags"/>
   </Layout>
 </template>
 
@@ -54,6 +54,10 @@
       this.record.amount = parseFloat(value);
     }
 
+    onSelectedTags(tags: string[]) {
+      this.record.tags = tags;
+    }
+
     // 储存一条记录
     saveRecord() {
       this.$store.commit('createRecord', this.record);
@@ -68,7 +72,8 @@
 </script>
 
 <!--注意这里没有scoped，因为要控制Layout组件里的东西-->
-<style lang="scss">
+<!--写成scoped也没有影响？？？-->
+<style lang="scss" scoped>
   .layout-content {
     display: flex;
     flex-direction: column-reverse;

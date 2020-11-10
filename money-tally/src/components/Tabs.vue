@@ -1,3 +1,5 @@
+<!--点击选择收入/支出；按天/按周/按月的Tab切换-->
+<!--通过intervalList.ts和recordTypeList.ts 传item的value和text-->
 <template>
   <ul class="tabs" :class="{[classPrefix+'-tabs']:classPrefix}">
     <li v-for="item in dataSource" :key="item.value"

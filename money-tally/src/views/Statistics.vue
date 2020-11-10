@@ -5,10 +5,14 @@
 
     <ol>
       <li v-for="(group, index) in result" :key="index">
-        <h3>{{group.title}}</h3>
+        <h3 class="title">{{group.title}}</h3>
         <ol>
-          <li v-for="item in group.items" :key="item.id">
-            {{item.amount}} {{item.createdAt}}
+          <li v-for="item in group.items" class="record" :key="item.id">
+
+            <span>{{tagString(item.tags)}}</span>
+            <span class="notes">{{item.notes}}</span>
+            <span>￥{{item.amount}}</span>
+
           </li>
         </ol>
       </li>
@@ -16,6 +20,32 @@
 
   </Layout>
 </template>
+
+<style lang="scss" scoped>
+  %item {
+    padding: 8px 16px;
+    line-height: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .title {
+    @extend %item
+  }
+
+  .record {
+    background: white;
+    @extend %item
+  }
+
+  .notes{
+    margin-right: auto;
+    margin-left: 12px;
+    color: #999;
+  }
+
+</style>
 
 <script lang="ts">
   import Vue from 'vue';
@@ -28,6 +58,12 @@
     components: {Tabs}
   })
   export default class Statistics extends Vue {
+
+    tagString(tags: Tag[]) {    // 标签可以有很多
+      const tagsName = tags.map(item => item.name);
+      return tags.length === 0 ? '无标签' : tagsName.join(',');
+    }
+
     get recordList() {
       return (this.$store.state as RootState).recordList;
     }
