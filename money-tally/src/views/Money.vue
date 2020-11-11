@@ -54,7 +54,7 @@
       this.record.amount = parseFloat(value);
     }
 
-    onSelectedTags(tags: string[]) {
+    onSelectedTags(tags: Tag[]) {
       this.record.tags = tags;
     }
 
