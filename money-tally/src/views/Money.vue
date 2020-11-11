@@ -73,8 +73,9 @@
 
 <!--注意这里没有scoped，因为要控制Layout组件里的东西-->
 <!--写成scoped也没有影响？？？   ...有的-->
-<style lang="scss">
-  .layout-content {
+<!--加deep就可以影响里面的组件了，还可以有scoped-->
+<style lang="scss" scoped>
+  ::v-deep .layout-content {
     display: flex;
     flex-direction: column-reverse;
   }

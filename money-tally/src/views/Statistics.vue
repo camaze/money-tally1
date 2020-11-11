@@ -1,11 +1,11 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
+    <!--    <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>  不搞按天按月按周了-->
 
     <ol>
       <li v-for="(group, index) in groupedList" :key="index">
-        <h3 class="title">{{beautify(group.title)}}</h3>
+        <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
         <ol>
           <li v-for="item in group.items" class="record" :key="item.id">
 
@@ -67,8 +67,11 @@
       const {recordList} = this;
       if (recordList.length === 0) {return [];}
       // type HashTableValue = { title: string; items: RecordItem[] }  // 用一个数组来放每一项这个[HashRableValue1, HashRableValue2...] 有顺序
-      const newList = clone(recordList).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-      const result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
+      const newList = clone(recordList)
+        .filter(r => r.type === this.type)
+        .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+      type Result = { title: string; total?: number; items: RecordItem[] }[]
+      const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
       for (let i = 1; i < newList.length; i++) {
         const current = newList[i];
         const last = result[result.length - 1];
@@ -78,7 +81,11 @@
           result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
         }
       }
-      return result
+      result.map(group => {
+        group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
+      });
+
+      return result;
     }
 
     beforeCreate() {
@@ -95,10 +102,10 @@
 <style scoped lang="scss">
   ::v-deep {
     .type-tabs-item { // ::v-deep 往引入的组件的深的找，找到这个 <Tabs class-prefix="type"里面的li
-      background: white;
+      background: #c4c4c4;
 
       &.selected {
-        background: #c4c4c4;
+        background: white;
 
         &::after {
           display: none;
