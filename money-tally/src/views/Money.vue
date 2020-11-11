@@ -54,6 +54,7 @@
       this.record.amount = parseFloat(value);
     }
 
+    // 选中tag
     onSelectedTags(tags: Tag[]) {
       this.record.tags = tags;
     }

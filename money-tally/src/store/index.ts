@@ -16,8 +16,8 @@ const store = new Vuex.Store({
     fetchRecords(state) {
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
     },
-    createRecord(state, record) {
-      const record2: RecordItem = clone(record);
+    createRecord(state, record:RecordItem) {
+      const record2 = clone(record);
       record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecords');
@@ -27,9 +27,14 @@ const store = new Vuex.Store({
         JSON.stringify(state.recordList));
     },
 
-
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+      if(!state.tagList||state.tagList.length===0){
+        store.commit('createTag', '衣')
+        store.commit('createTag', '食')
+        store.commit('createTag', '住')
+        store.commit('createTag', '行')
+      }
     },
     setCurrentTag(state, id: string) {
       state.currentTag = state.tagList.filter(t => t.id === id)[0];
@@ -78,7 +83,9 @@ const store = new Vuex.Store({
       const id = createId().toString();
       state.tagList.push({id, name: name});
       store.commit('saveTags');
-      window.alert('添加成功');
+      if(['衣','食', '住', '行'].indexOf(name)===-1){
+        window.alert('添加成功');    // 不是这四个默认的才提示
+      }
       // return 'success';
     },
     saveTags(state) {

@@ -60,6 +60,7 @@
     ok() {
       this.$emit('update:value', this.output);
       this.$emit('submit', this.output);
+      window.alert('记账成功');
       this.output = '0';
     }
 

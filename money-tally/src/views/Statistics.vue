@@ -65,7 +65,7 @@
 
     get groupedList() {
       const {recordList} = this;
-      if (recordList.length === 0) {return [];}
+      if (recordList.length === 0) {return [] as Result;}
       // type HashTableValue = { title: string; items: RecordItem[] }  // 用一个数组来放每一项这个[HashRableValue1, HashRableValue2...] 有顺序
       const newList = clone(recordList)
         .filter(r => r.type === this.type)
