@@ -3,7 +3,7 @@
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
     <!--    <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>  不搞按天按月按周了-->
 
-    <ol>
+    <ol v-if="groupedList.length>0">
       <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
         <ol>
@@ -17,7 +17,9 @@
         </ol>
       </li>
     </ol>
-
+    <div v-else class="noResult">
+      目前没有相关记录
+    </div>
   </Layout>
 </template>
 
@@ -39,7 +41,7 @@
 
     tagString(tags: Tag[]) {    // 标签可以有很多
       const tagsName = tags.map(item => item.name);
-      return tags.length === 0 ? '无标签' : tagsName.join(',');
+      return tags.length === 0 ? '无标签' : tagsName.join('，');
     }
 
     beautify(string: string) {
@@ -101,6 +103,10 @@
 </script>
 
 <style scoped lang="scss">
+  .noResult{
+    padding: 16px;
+    text-align: center;
+  }
   ::v-deep {
     .type-tabs-item { // ::v-deep 往引入的组件的深的找，找到这个 <Tabs class-prefix="type"里面的li
       background: #c4c4c4;

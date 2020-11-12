@@ -7,8 +7,11 @@
     <div class="notes">
       <FormItem field-name="备注"
                 place-holder="在这里输入备注"
-                @update:value="onUpdateNotes"
+                :value.sync="record.notes"
       />
+<!--                :value="record.notes"-->
+<!--                @update:value="onUpdateNotes"-->
+
     </div>
     <Tags @update:value="onSelectedTags"/>
   </Layout>
@@ -62,6 +65,7 @@
     // 储存一条记录
     saveRecord() {
       this.$store.commit('createRecord', this.record);
+      this.record.notes = '';
     }
 
 
